@@ -1,1 +1,35 @@
 
+import streamlit as st
+import random
+
+st.set_page_config(page_title="🐛 벌BTI 명언봇", page_icon="🐞")
+
+st.title("🐛 벌레 특징으로 전해주는 명언")
+
+# 명언 데이터
+quotes = {
+    "good": [
+        "🌸 행복은 방향이지 목적지가 아니다. - 칼릴 지브란",
+        "🦋 오늘은 다시 오지 않는 선물이다.",
+        "🌞 웃음은 마음의 햇빛이다."
+    ],
+    "bad": [
+        "🪲 힘들 땐 잠시 멈춰 서도 괜찮다.",
+        "🌑 가장 어두운 밤도 결국은 끝난다. - 빅토르 위고",
+        "💪 넘어져도 다시 일어서는 게 용기다."
+    ]
+}
+
+# 기분 선택
+mood = st.radio("지금 기분은 어때요?", ["좋음 😀", "안 좋음 😔"])
+
+if st.button("명언 받기"):
+    if mood.startswith("좋음"):
+        bug = "🦋 나비"
+        quote = random.choice(quotes["good"])
+    else:
+        bug = "🪲 풍뎅이"
+        quote = random.choice(quotes["bad"])
+
+    st.subheader(f"당신의 벌레: {bug}")
+    st.success(f"✨ 명언: {quote}")
