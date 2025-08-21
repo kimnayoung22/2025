@@ -3,15 +3,14 @@ import random
 
 st.set_page_config(page_title="🐛 벌BTI 명언봇", page_icon="🐞")
 
-# ===== CSS 배경 추가 =====
+# ===== CSS 배경 추가 (벌레 패턴) =====
 page_bg = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background-image: url("https://cdn-icons-png.flaticon.com/512/1864/1864514.png"); /* 벌레 아이콘 PNG */
-    background-size: 150px;   /* 벌레 크기 조정 */
-    background-repeat: repeat; /* 반복 패턴 */
+    background-image: url("https://cdn-icons-png.flaticon.com/512/1864/1864514.png");
+    background-size: 120px;
+    background-repeat: repeat;
     background-attachment: fixed;
-    opacity: 0.9;
 }
 </style>
 """
@@ -19,9 +18,9 @@ st.markdown(page_bg, unsafe_allow_html=True)
 
 # ===== 타이틀 =====
 st.title("🐛 기분별 벌레 명언")
-st.write("지금 기분에 맞는 벌레와 명언을 받아보세요!")
+st.write("지금 기분에 맞는 벌레와 명언을 받아보세요! ✨")
 
-# 명언 데이터
+# ===== 명언 데이터 =====
 quotes = {
     "행복": ["🦋 행복은 우리 안에 있다.", "🌸 오늘 하루는 선물이다.", "😀 웃음은 마음의 햇살이다."],
     "슬픔": ["🪲 힘들 땐 잠시 멈춰도 괜찮다.", "🌑 어두운 밤도 끝난다.", "💪 슬픔은 우리를 단단하게 한다."],
@@ -33,13 +32,13 @@ quotes = {
     "용기": ["🦗 도전은 성장의 시작이다.", "💪 두려움을 직면하라.", "🔥 시도하지 않으면 변화도 없다."]
 }
 
-# 기분 선택
+# ===== 기분 선택 =====
 mood = st.selectbox(
     "지금 기분은 어떤가요?",
     ["행복 😀", "슬픔 😢", "분노 😡", "불안 😰", "지침 😴", "설렘 😍", "무기력 😶", "용기 💪"]
 )
 
-# 기분에 따른 벌레 연결
+# ===== 기분에 따른 벌레 연결 =====
 bug_map = {
     "행복": "🦋 나비",
     "슬픔": "🪲 풍뎅이",
@@ -51,27 +50,35 @@ bug_map = {
     "용기": "🦗 사마귀"
 }
 
-# 세션 기록
+# ===== 세션 기록 =====
 if "history" not in st.session_state:
     st.session_state["history"] = []
 
+# ===== 명언 받기 버튼 =====
 if st.button("명언 받기 ✨"):
-    key = mood.split()[0]
+    key = mood.split()[0]  # 이모지 제거하고 키만
     bug = bug_map[key]
     quote = random.choice(quotes[key])
     st.subheader(f"당신의 벌레: {bug}")
     st.success(f"✨ 명언: {quote}")
 
-    # 이펙트
+    # 기분에 따른 효과
     if key == "행복":
         st.balloons()
     elif key == "슬픔":
         st.snow()
 
+    # 기록 저장
     st.session_state["history"].append(f"{bug} - {quote}")
 
+# ===== 기록 출력 =====
 if st.session_state["history"]:
     st.write("📜 지금까지 받은 명언 기록:")
     for i, item in enumerate(st.session_state["history"], 1):
         st.write(f"{i}. {item}")
-({bug_map[rand_mood]}) 기분으로 살아보는 건 어때요?")
+
+# ===== 랜덤 기분 추천 =====
+if st.button("오늘의 랜덤 기분 추천 🎲"):
+    rand_mood = random.choice(list(bug_map.keys()))
+    st.info(f"오늘은 **{rand_mood}** ({bug_map[rand_mood]}) 기분으로 살아보는 건 어때요? 😊")
+
