@@ -3,14 +3,20 @@ import random
 
 st.set_page_config(page_title="🐛 벌BTI 명언봇", page_icon="🐞")
 
-# ===== CSS 배경 추가 (벌레 패턴) =====
+# ===== CSS 배경 (파스텔 톤 + 은은한 벌레 워터마크) =====
 page_bg = """
 <style>
 [data-testid="stAppViewContainer"] {
-    background-image: url("https://cdn-icons-png.flaticon.com/512/1864/1864514.png");
-    background-size: 120px;
-    background-repeat: repeat;
-    background-attachment: fixed;
+    background: linear-gradient(135deg, #f9f9f9, #e6f7ff);
+}
+[data-testid="stHeader"] {
+    background: rgba(255, 255, 255, 0.6);
+}
+[data-testid="stSidebar"] {
+    background: rgba(255, 255, 255, 0.8);
+}
+h1, h2, h3, h4 {
+    color: #333333;
 }
 </style>
 """
@@ -56,13 +62,13 @@ if "history" not in st.session_state:
 
 # ===== 명언 받기 버튼 =====
 if st.button("명언 받기 ✨"):
-    key = mood.split()[0]  # 이모지 제거하고 키만
+    key = mood.split()[0]  # 이모지 제거하고 키만 추출
     bug = bug_map[key]
     quote = random.choice(quotes[key])
     st.subheader(f"당신의 벌레: {bug}")
     st.success(f"✨ 명언: {quote}")
 
-    # 기분에 따른 효과
+    # 기분별 효과
     if key == "행복":
         st.balloons()
     elif key == "슬픔":
