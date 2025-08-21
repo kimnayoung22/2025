@@ -35,9 +35,33 @@ bug_map = {
     "용기": "🦗 사마귀"
 }
 
-if st.button("명언 받기"):
+# 세션 스토리지 초기화
+if "history" not in st.session_state:
+    st.session_state["history"] = []
+
+if st.button("명언 받기 ✨"):
     key = mood.split()[0]  # 이모지 제거하고 key만
     bug = bug_map[key]
     quote = random.choice(quotes[key])
     st.subheader(f"당신의 벌레: {bug}")
     st.success(f"✨ 명언: {quote}")
+
+    # 이모션 효과
+    if key == "행복":
+        st.balloons()
+    elif key == "슬픔":
+        st.snow()
+
+    # 기록 저장
+    st.session_state["history"].append(f"{bug} - {quote}")
+
+# 이전 기록 보여주기
+if st.session_state["history"]:
+    st.write("📜 지금까지 받은 명언 기록:")
+    for i, item in enumerate(st.session_state["history"], 1):
+        st.write(f"{i}. {item}")
+
+# 랜덤 기분 추천
+if st.button("오늘의 랜덤 기분 추천 🎲"):
+    rand_mood = random.choice(list(bug_map.keys()))
+    st.info(f"오늘은 **{rand_mood}** ({bug_map[rand_mood]}) 기분으로 살아보는 건 어때요?")
